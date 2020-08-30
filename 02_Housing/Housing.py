@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import functions as fun
 import matplotlib.pyplot as plt
+from pandas.plotting import scatter_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
 
@@ -59,10 +60,25 @@ for (train_index, test_index) in split.split(housing, housing['income_cat']):
     (strat_train_set, strat_test_set) = (
             housing.loc[train_index], housing.loc[test_index]
         )
-strat_test_set["income_cat"].value_counts() / len(strat_test_set)
+strat_test_set['income_cat'].value_counts() / len(strat_test_set)
 for set_ in (strat_train_set, strat_test_set):
-    set_.drop("income_cat", axis=1, inplace=True)
+    set_.drop('income_cat', axis=1, inplace=True)
 
 # #############################################################################
-# Visualize data
+# Visualize data and look for patterns
 # #############################################################################
+housing.plot(
+        kind='scatter', x='longitude', y='latitude', alpha=.4,
+        s=housing['population']/100, label='population', figsize=(10, 7),
+        c='median_house_value', cmap=plt.get_cmap('RdPu'), colorbar=True
+    )
+corr_matrix = housing.corr()
+corr_matrix['median_house_value'].sort_values(ascending=False)
+attributes = [
+        'median_house_value', 'median_income',
+        'total_rooms', 'housing_median_age'
+    ]
+scatter_matrix(housing[attributes], figsize=(12, 8))
+housing.plot(
+        kind='scatter', x='median_income', y='median_house_value', alpha=.1
+    )
