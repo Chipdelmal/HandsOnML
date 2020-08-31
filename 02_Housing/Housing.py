@@ -72,6 +72,7 @@ housing.plot(
         s=housing['population']/100, label='population', figsize=(10, 7),
         c='median_house_value', cmap=plt.get_cmap('RdPu'), colorbar=True
     )
+# Correlations ----------------------------------------------------------------
 corr_matrix = housing.corr()
 corr_matrix['median_house_value'].sort_values(ascending=False)
 attributes = [
@@ -82,3 +83,9 @@ scatter_matrix(housing[attributes], figsize=(12, 8))
 housing.plot(
         kind='scatter', x='median_income', y='median_house_value', alpha=.1
     )
+# Adding variables ------------------------------------------------------------
+housing["rooms_per_household"] = housing["total_rooms"]/housing["households"]
+housing["bedrooms_per_room"] = housing["total_bedrooms"]/housing["total_rooms"]
+housing["population_per_household"] = housing["population"]/housing["households"]
+corr_matrix = housing.corr()
+corr_matrix["median_house_value"].sort_values(ascending=False)
