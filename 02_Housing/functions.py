@@ -65,3 +65,9 @@ class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
 
         else:
             return np.c_[X, rooms_per_household, population_per_household]
+
+
+def display_scores(scores):
+    print("Scores:", scores)
+    print("Mean:", scores.mean())
+    print("Standard deviation:", scores.std())
