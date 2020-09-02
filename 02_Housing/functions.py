@@ -5,6 +5,7 @@ import tarfile
 import numpy as np
 import pandas as pd
 from zlib import crc32
+from sklearn.base import BaseEstimator, TransformerMixin
 
 
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml2/master/"
@@ -12,6 +13,7 @@ DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml2/master/"
         os.path.join("datasets", "housing"),
         DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
     )
+(rooms_ix, bedrooms_ix, population_ix, households_ix) = (3, 4, 5, 6)
 
 
 def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
@@ -44,3 +46,22 @@ def split_train_test_by_id(data, test_ratio, id_column):
     ids = data[id_column]
     in_test_set = ids.apply(lambda id_: test_set_check(id_, test_ratio))
     return (data.loc[~in_test_set], data.loc[in_test_set])
+
+
+class CombinedAttributesAdder(BaseEstimator, TransformerMixin):
+    def __init__(self, add_bedrooms_per_room=True):
+        self.add_bedrooms_per_room = add_bedrooms_per_room
+
+    def fit(self, X, y=None):
+        return self  # nothing else to do
+
+    def transform(self, X, y=None):
+        rooms_per_household = X[:, rooms_ix] / X[:, households_ix]
+        population_per_household = X[:, population_ix] / X[:, households_ix]
+        if self.add_bedrooms_per_room:
+            bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
+            return np.c_[X, rooms_per_household, population_per_household,
+                         bedrooms_per_room]
+
+        else:
+            return np.c_[X, rooms_per_household, population_per_household]
