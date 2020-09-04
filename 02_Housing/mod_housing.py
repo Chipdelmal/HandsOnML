@@ -1,4 +1,5 @@
 
+import joblib
 import numpy as np
 import functions as fun
 from compress_pickle import load
@@ -67,3 +68,7 @@ scores = cross_val_score(
     )
 forest_rsme_scores = np.sqrt(-scores)
 fun.display_scores(forest_rsme_scores)
+# #############################################################################
+# Save Models
+# #############################################################################
+joblib.dump(forest_reg, "./models/forest.pkl")
