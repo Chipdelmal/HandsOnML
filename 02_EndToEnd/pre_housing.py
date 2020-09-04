@@ -146,7 +146,10 @@ housing_prepared = full_pipeline.fit_transform(housing)
 obj = {
         'original': housing,
         'labels': housing_labels,
-        'prepared': housing_prepared
+        'prepared': housing_prepared,
+        'num': num_attribs,
+        'cat': cat_attribs,
+        'test': strat_test_set
     }
 with open('./processed/preHousing', "wb") as f:
     dump(obj, f, compression=None, set_default_extension=False)
