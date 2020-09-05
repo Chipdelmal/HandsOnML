@@ -1,4 +1,5 @@
 
+import joblib
 import numpy as np
 from scipy import stats
 from compress_pickle import load
@@ -73,11 +74,16 @@ X_test_prepared = full_pipeline.transform(X_test)
 final_predictions = final_model.predict(X_test_prepared)
 final_mse = mean_squared_error(y_test, final_predictions)
 final_rmse = np.sqrt(final_mse)
-final_rmse
 confidence = 0.95
-squared_errors = (final_predictions - y_test) ** 2
+squared_errors = (final_predictions-y_test)**2
 np.sqrt(
-        stats.t.interval(confidence, len(squared_errors) - 1,
-        loc=squared_errors.mean(),
-        scale=stats.sem(squared_errors))
+        stats.t.interval(
+                confidence, len(squared_errors)-1,
+                loc=squared_errors.mean(),
+                scale=stats.sem(squared_errors)
+            )
     )
+# #############################################################################
+# Save Models
+# #############################################################################
+joblib.dump(final_model, "./models/final_model.pkl")
