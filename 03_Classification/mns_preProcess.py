@@ -75,3 +75,4 @@ threshold_90_precision = thresholds[np.argmax(precisions >= 0.90)]
 y_train_pred_90 = (y_scores >= threshold_90_precision)
 precision_score(y_train_5, y_train_pred_90)
 recall_score(y_train_5, y_train_pred_90)
+y_train_5
