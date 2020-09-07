@@ -3,9 +3,11 @@ import os.path
 import numpy as np
 import functions as fun
 import matplotlib.pyplot as plt
+from sklearn.metrics import roc_auc_score, roc_curve
 from sklearn.metrics import confusion_matrix
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import precision_recall_curve
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import precision_score, recall_score, f1_score
@@ -70,9 +72,25 @@ y_scores = cross_val_predict(
     )
 (precisions, recalls, thresholds) = precision_recall_curve(y_train_5, y_scores)
 fun.plot_precision_recall_vs_threshold(precisions, recalls, thresholds)
-plt.show()
 threshold_90_precision = thresholds[np.argmax(precisions >= 0.90)]
 y_train_pred_90 = (y_scores >= threshold_90_precision)
+fpr, tpr, thresholds = roc_curve(y_train_5, y_scores)
 precision_score(y_train_5, y_train_pred_90)
 recall_score(y_train_5, y_train_pred_90)
-y_train_5
+fun.plot_roc_curve(fpr, tpr)
+# #############################################################################
+# ROC/AUC
+# #############################################################################
+roc_auc_score(y_train_5, y_scores)
+# #############################################################################
+# Random Forest
+# #############################################################################
+forest_clf = RandomForestClassifier(random_state=42)
+y_probas_forest = cross_val_predict(
+        forest_clf, X_train, y_train_5, cv=3,
+        method="predict_proba"
+    )
+y_scores_forest = y_probas_forest[:, 1]   # score = proba of positive class
+fpr_forest, tpr_forest, thresholds_forest = roc_curve(y_train_5, y_scores_forest)
+fun.plot_roc_curve(fpr_forest, tpr_forest)
+roc_auc_score(y_train_5, y_scores_forest)
