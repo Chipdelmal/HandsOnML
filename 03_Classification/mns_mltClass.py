@@ -69,10 +69,6 @@ y_train_pred = fun.pklEval(
         modFld+'sgd_clf_pred.pkl', sgd_clf, cross_val_predict,
         X_train_scaled, y_train, OVW=False, cv=3
     )
-
-y_train_pred = cross_val_predict(sgd_clf, X_train_scaled, y_train, cv=3)
-joblib.dump(y_train_pred, "./models/sgd_clf_pred.pkl")
-y_train_pred = joblib.load("./models/sgd_clf_pred.pkl")
 conf_mx = confusion_matrix(y_train, y_train_pred)
 plt.matshow(conf_mx, cmap=plt.cm.gray)
 norm_conf_mx = conf_mx / conf_mx.sum(axis=1, keepdims=True)
