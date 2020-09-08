@@ -2,6 +2,7 @@
 import os
 import joblib
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from sklearn.base import BaseEstimator
 from sklearn.datasets import fetch_openml
@@ -53,3 +54,9 @@ def pklEval(pth, model, fun, X_train, y_train, OVW=False, **kwargs):
     else:
         dta = joblib.load(pth)
     return dta
+
+
+def plot_digit(data):
+    image = data.reshape(28, 28)
+    plt.imshow(image, cmap=mpl.cm.binary, interpolation="nearest")
+    plt.axis("off")

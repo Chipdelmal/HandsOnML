@@ -32,3 +32,19 @@ knn_prd = fun.pklEval(
         modFld+'knn_clf_pred.pkl', knn_clf, cross_val_predict,
         X_train, y_multilabel, OVW=False, cv=3
     )
+# #############################################################################
+# Multioutput
+# #############################################################################
+noise = np.random.randint(0, 100, (len(X_train), 784))
+X_train_mod = X_train + noise
+noise = np.random.randint(0, 100, (len(X_test), 784))
+X_test_mod = X_test + noise
+y_train_mod = X_train
+y_test_mod = X_test
+knn_mlf = fun.pklFitModel(modFld+'knn_mlf.pkl', X_train_mod, y_train_mod)
+# Test ------------------------------------------------------------------------
+i = 0
+clean_digit = knn_clf.predict([X_test_mod[i]])
+notClean_digit = X_test_mod[i]
+fun.plot_digit(clean_digit)
+fun.plot_digit(notClean_digit)
