@@ -41,7 +41,8 @@ noise = np.random.randint(0, 100, (len(X_test), 784))
 X_test_mod = X_test + noise
 y_train_mod = X_train
 y_test_mod = X_test
-knn_mlf = fun.pklFitModel(modFld+'knn_mlf.pkl', X_train_mod, y_train_mod)
+knn_mlf = KNeighborsClassifier()
+knn_mlf = fun.pklFitModel(modFld+'knn_mlf.pkl', knn_mlf, X_train_mod, y_train_mod)
 # Test ------------------------------------------------------------------------
 i = 0
 clean_digit = knn_clf.predict([X_test_mod[i]])
