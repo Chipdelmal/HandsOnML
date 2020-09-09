@@ -45,7 +45,8 @@ knn_mlf = KNeighborsClassifier()
 knn_mlf = fun.pklFitModel(modFld+'knn_mlf.pkl', knn_mlf, X_train_mod, y_train_mod)
 # Test ------------------------------------------------------------------------
 i = 0
-clean_digit = knn_clf.predict([X_test_mod[i]])
+clean_digit = knn_mlf.predict([X_test_mod[i]])
 notClean_digit = X_test_mod[i]
 fun.plot_digit(clean_digit)
 fun.plot_digit(notClean_digit)
+clean_digit
