@@ -11,11 +11,11 @@ from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 # Load Dataset
 # #############################################################################
 rawData = load(
-        './processed/preHousing',
+        './processed/preHousing.pkl',
         compression=None, set_default_extension=False
     )
 full_pipeline = load(
-        './processed/preTransform',
+        './processed/preTransform.pkl',
         compression=None, set_default_extension=False
     )
 (housing_prepared, housing_labels, housing, num_attribs, cat_attribs, strat_test_set) = (

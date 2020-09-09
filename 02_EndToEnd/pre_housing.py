@@ -151,7 +151,7 @@ obj = {
         'cat': cat_attribs,
         'test': strat_test_set
     }
-with open('./processed/preHousing', "wb") as f:
+with open('./processed/preHousing.pkl', "wb") as f:
     dump(obj, f, compression=None, set_default_extension=False)
-with open('./processed/preTransform', "wb") as f:
+with open('./processed/preTransform.pkl', "wb") as f:
     dump(full_pipeline, f, compression=None, set_default_extension=False)
