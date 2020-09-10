@@ -1,5 +1,6 @@
 
 import os
+import joblib
 import urllib
 import tarfile
 import numpy as np
@@ -71,3 +72,13 @@ def display_scores(scores):
     print("Scores:", scores)
     print("Mean:", scores.mean())
     print("Standard deviation:", scores.std())
+
+
+def pklFitModel(pth, model, X_train, y_train, OVW=False):
+    mdlExists = os.path.exists(pth)
+    if (not mdlExists) or (OVW):
+        fit = model.fit(X_train, y_train)
+        joblib.dump(fit, pth)
+    else:
+        fit = joblib.load(pth)
+    return fit
