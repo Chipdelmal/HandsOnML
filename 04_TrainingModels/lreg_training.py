@@ -27,3 +27,5 @@ plt.show()
 # #############################################################################
 lin_reg = LinearRegression()
 lin_reg.fit(X, y)
+lin_reg.intercept_, lin_reg.coef_
+lin_reg.predict(X_new)
