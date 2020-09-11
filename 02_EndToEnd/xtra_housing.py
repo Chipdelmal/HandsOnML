@@ -54,7 +54,25 @@ gs = GridSearchCV(
     )
 gs = fun.pklFitModel(
         './processed/gsSVM.pkl', gs,
-        housing_prepared, housing_labels
+        housing_prepared, housing_labels, OVW=True
     )
-(pmsBst, mdlBst) = (gs.best_params_, gs.best_estimator_)
-mdlBst
+(pmsBstGs, mdlBstGs) = (gs.best_params_, gs.best_estimator_)
+# #############################################################################
+# Randomized Search
+# #############################################################################
+mdl = svm.SVR()
+params = {
+        'kernel': ['linear', 'poly', 'rbf'],
+        'gamma': ['auto', 'scale'],
+        'C': [.5, 1, 1.5]
+    }
+rs = RandomizedSearchCV(
+        mdl, params, cv=5,
+        scoring='neg_mean_squared_error',
+        return_train_score=True
+    )
+rs = fun.pklFitModel(
+        './processed/rsSVM.pkl', gs,
+        housing_prepared, housing_labels, OVW=True
+    )
+(pmsBstRs, mdlBstRs) = (rs.best_params_, rs.best_estimator_)
