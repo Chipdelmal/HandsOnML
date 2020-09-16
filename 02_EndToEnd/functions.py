@@ -1,7 +1,7 @@
 
 import os
 import joblib
-import urllib
+import urllib.request
 import tarfile
 import numpy as np
 import pandas as pd
