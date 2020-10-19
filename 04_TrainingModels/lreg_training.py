@@ -1,7 +1,10 @@
 
 import numpy as np
+import functions as fun
 import matplotlib.pyplot as plt
+from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 
 
 # #############################################################################
@@ -29,3 +32,17 @@ lin_reg = LinearRegression()
 lin_reg.fit(X, y)
 lin_reg.intercept_, lin_reg.coef_
 lin_reg.predict(X_new)
+# #############################################################################
+# Learning Curves
+# #############################################################################
+lin_reg = LinearRegression()
+fun.plot_learning_curves(lin_reg, X, y)
+
+
+
+
+polynomial_regression = Pipeline([
+        ("poly_features", PolynomialFeatures(degree=10, include_bias=False)),
+        ("lin_reg", LinearRegression()),
+    ])
+fun.plot_learning_curves(polynomial_regression, X, y)
