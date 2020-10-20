@@ -16,3 +16,8 @@ def plot_learning_curves(model, X, y):
         val_errors.append(mean_squared_error(y_val, y_val_predict))
     plt.plot(np.sqrt(train_errors), "r-+", linewidth=2, label="train")
     plt.plot(np.sqrt(val_errors), "b-", linewidth=3, label="val")
+
+
+
+def learning_schedule(t, t0, t1):
+    return t0 / (t + t1)
